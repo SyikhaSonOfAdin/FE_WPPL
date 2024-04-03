@@ -1,8 +1,11 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import "./css/output.css";
-import "./css/additional.css"
+import "./css/additional.css";
 import Login from "./components/login/Login";
-
+import Sidebar from "./components/Sidebar";
+import Dashboard from "./components/landingPage/Dashboard";
+import BarangMasuk from "./components/landingPage/BarangKeluar";
+import BarangKeluar from "./components/landingPage/BarangKeluar";
 
 function App() {
 
@@ -11,6 +14,11 @@ function App() {
       <BrowserRouter>
         <Routes path='/'>
           <Route path='/login' element={<Login />} />
+          <Route path='/' element={<Sidebar />}>
+            <Route path='/dashboard' element={<Dashboard />} />
+            <Route path='/received' element={ <BarangMasuk />} />
+            <Route path='/issued' element={<BarangKeluar />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </>
