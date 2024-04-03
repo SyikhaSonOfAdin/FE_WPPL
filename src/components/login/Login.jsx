@@ -1,11 +1,37 @@
+import axios from "axios"
+import ENDPOINTS from "../../.config/.conf"
+import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
+
 export default function Login() {
+    const [user, setUser] = useState({
+        email: "",
+        password: ""
+    })
+    const navigate = useNavigate()
+    const reqLogin = async () => {
+        const data = new URLSearchParams()
+        data.append("email", user.email)
+        data.append("password", user.password)
+        const result = await axios.post(ENDPOINTS.POST.LOGIN, data)
+        console.log(result.data["user"])
+        if (result.data["user"]["authentication"]) {
+            navigate("/dashboard")
+        }
+    }
+    useEffect(() => {
+        console.log(user)
+    }, [user])
     return (
         <>
             <div className="h-screen w-screen flex justify-center item-center bg-blue-500">
                 <div className="w-4/5 md:w-full lg:w-1/2 flex flex-col justify-center items-center">
                     <div className="w-80 md:w-96 lg:w-1/2 h-auto p-8 m-4 flex border shadow-lg rounded-lg bg-white">
-                        <form action="" className="flex flex-col justify-center">
-                            
+                        <form onSubmit={(e) => {
+                            e.preventDefault()
+                            reqLogin()
+                        }} className="flex flex-col justify-center">
+
                             <div className="flex flex-col items-center mb-10">
                                 <h1 className="text-lg md:text-xl font-bold">Login to Account</h1>
                                 <h2 className="text-xs md:text-sm text-center">Please enter your email and password to continue</h2>
@@ -13,7 +39,12 @@ export default function Login() {
 
                             <div className="flex flex-col w-full mb-5">
                                 <label htmlFor="" className="mb-2 text-xs md:text-sm">Email Address</label>
-                                <input type="email" placeholder="nama@gmail.com" className="bg-gray-100 w-64 md:w-80 lg:w-80 rounded-lg p-2 lg:p-3" />
+                                <input type="email" placeholder="nama@gmail.com" onChange={(e) => {
+                                    setUser({
+                                        ...user,
+                                        email: e.target.value,
+                                    })
+                                }} className="bg-gray-100 w-64 md:w-80 lg:w-80 rounded-lg p-2 lg:p-3" />
                             </div>
 
                             <div className="flex flex-col w-full mb-2">
@@ -21,7 +52,12 @@ export default function Login() {
                                     <label htmlFor="" className="mb-2 text-xs md:text-sm">Password</label>
                                     <label htmlFor="" className="mb-2 text-xs md:text-sm">Forget Password?</label>
                                 </div>
-                                <input type="password" placeholder="" className="bg-gray-100 w-64 md:w-80 lg:w-80 rounded-lg p-2 lg:p-3" />
+                                <input type="password" onChange={(e) => {
+                                    setUser({
+                                        ...user,
+                                        password: e.target.value,
+                                    })
+                                }} placeholder="" className="bg-gray-100 w-64 md:w-80 lg:w-80 rounded-lg p-2 lg:p-3" />
                             </div>
 
                             <div className="flex mb-5">
