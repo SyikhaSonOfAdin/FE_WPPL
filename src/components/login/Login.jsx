@@ -2,6 +2,7 @@ import axios from "axios"
 import ENDPOINTS from "../../.config/.conf"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
+import Cookies from "js-cookie"
 
 export default function Login() {
     const [user, setUser] = useState({
@@ -16,6 +17,12 @@ export default function Login() {
         const result = await axios.post(ENDPOINTS.POST.LOGIN, data)
         console.log(result.data["user"])
         if (result.data["user"]["authentication"]) {
+            Cookies.set("auth", result.data["user"]["authentication"])
+            Cookies.set("user_id", result.data["user"]["id"])
+            Cookies.set("username", result.data["user"]["username"])
+            Cookies.set("level", result.data["user"]["level"])
+            Cookies.set("company_id", result.data["user"]["company_id"])
+            // Cookies.set("user_id", result.data["user"]["user_id"])
             navigate("/dashboard")
         }
     }
@@ -25,8 +32,8 @@ export default function Login() {
     return (
         <>
             <div className="h-screen w-screen flex justify-center item-center bg-blue-500">
-                <div className="w-4/5 md:w-full lg:w-1/2 flex flex-col justify-center items-center">
-                    <div className="w-80 md:w-96 lg:w-1/2 h-auto p-8 m-4 flex border shadow-lg rounded-lg bg-white">
+                <div className="w-4/5 md:w-full flex flex-col justify-center items-center">
+                    <div className="w-80 md:w-1/2 lg:w-[25%] h-auto p-8 m-4 flex border shadow-lg rounded-lg bg-white">
                         <form onSubmit={(e) => {
                             e.preventDefault()
                             reqLogin()
