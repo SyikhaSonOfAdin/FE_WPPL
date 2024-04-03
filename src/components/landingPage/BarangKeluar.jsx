@@ -1,9 +1,9 @@
-export default function Transfer() {
+export default function BarangKeluar() {
     return (
-        <div>
-            <>
-                <h1>TRANSFER</h1>
-            </>
-        </div>
+        <>
+            <div>
+                <h1>ISSUED</h1>
+            </div>
+        </>
     )
 }

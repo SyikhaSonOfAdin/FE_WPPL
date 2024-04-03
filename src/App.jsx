@@ -4,7 +4,7 @@ import "./css/additional.css";
 import Login from "./components/login/Login";
 import Sidebar from "./components/Sidebar";
 import Dashboard from "./components/landingPage/Dashboard";
-import BarangMasuk from "./components/landingPage/BarangKeluar";
+import BarangMasuk from "./components/landingPage/BarangMasuk";
 import BarangKeluar from "./components/landingPage/BarangKeluar";
 
 function App() {

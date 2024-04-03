@@ -43,42 +43,42 @@ export default function Sidebar() {
                         <div className="flex flex-col">
                             <div onClick={() => {
                                 Navigate('/Dashboard')
-                            }} className={`flex mx-3 my-1 p-1 w-[90%] rounded-md text-gray-600 hover:text-black hover:font-bold hover:bg-gray-100 hover:cursor-pointer ${!isOpen && "w-[52%] my-2"}`}>
+                            }} className={`flex mx-3 my-1 p-1 w-[90%] rounded-md text-gray-600 hover:text-black hover:font-bold hover:bg-gray-100 hover:cursor-pointer ${!isOpen && "w-[52%] lg:w-[50%] my-2"}`}>
                                 <img src={dashboardIcon} alt="" className="" />
                                 <h1 className={`ml-3 text-sm md:text-lg ${!isOpen && "hidden"}`}>Dashboard</h1>
                             </div>
 
                             <div onClick={() => {
-                                Navigate('/BarangMasuk')
-                            }} className={`flex mx-3 my-1 p-1 w-[90%] rounded-md text-gray-600 hover:text-black hover:font-bold hover:bg-gray-100 hover:cursor-pointer ${!isOpen && "w-[52%] my-2"}`}>
+                                Navigate('/Received')
+                            }} className={`flex mx-3 my-1 p-1 w-[90%] rounded-md text-gray-600 hover:text-black hover:font-bold hover:bg-gray-100 hover:cursor-pointer ${!isOpen && "w-[52%] lg:w-[50%] my-2"}`}>
                                 <img src={Transfer} alt="" />
                                 <h1 className={`ml-3 text-sm md:text-lg ${!isOpen && "hidden"}`}>Barang Masuk</h1>
                             </div>
 
                             <div onClick={() => {
-                                Navigate('/BarangKeluar')
-                            }} className={`flex mx-3 my-1 p-1 w-[90%] rounded-md text-gray-600 hover:text-black hover:font-bold hover:bg-gray-100 hover:cursor-pointer ${!isOpen && "w-[52%] my-2"}`}>
+                                Navigate('/Issued')
+                            }} className={`flex mx-3 my-1 p-1 w-[90%] rounded-md text-gray-600 hover:text-black hover:font-bold hover:bg-gray-100 hover:cursor-pointer ${!isOpen && "w-[52%] lg:w-[50%] my-2"}`}>
                                 <img src={Transfer} alt="" />
                                 <h1 className={`ml-3 text-sm md:text-lg ${!isOpen && "hidden"}`}>Barang Keluar</h1>
                             </div>
 
-                            <div className={`flex mx-3 my-1 p-1 w-[90%] rounded-md text-gray-600 hover:text-black hover:font-bold hover:bg-gray-100 hover:cursor-pointer ${!isOpen && "w-[52%] my-2"}`}>
+                            <div className={`flex mx-3 my-1 p-1 w-[90%] rounded-md text-gray-600 hover:text-black hover:font-bold hover:bg-gray-100 hover:cursor-pointer ${!isOpen && "w-[52%] lg:w-[50%] my-2"}`}>
                                 <img src={History} alt="" />
                                 <h1 className={`ml-3 text-sm md:text-lg ${!isOpen && "hidden"}`}>History</h1>
                             </div>
                             
-                            <div className={`flex mx-3 my-1 p-1 w-[90%] rounded-md text-gray-600 hover:text-black hover:font-bold hover:bg-gray-100 hover:cursor-pointer ${!isOpen && "w-[52%] my-2"}`}>
+                            <div className={`flex mx-3 my-1 p-1 w-[90%] rounded-md text-gray-600 hover:text-black hover:font-bold hover:bg-gray-100 hover:cursor-pointer ${!isOpen && "w-[52%] lg:w-[50%] my-2"}`}>
                                 <img src={Locations} alt="" />
                                 <h1 className={`ml-3 text-sm md:text-lg ${!isOpen && "hidden"}`}>Locations</h1>
                             </div>
                 
                             
-                            <div className={`flex mx-3 my-1 p-1 w-[90%] rounded-md text-gray-600 hover:text-black hover:font-bold hover:bg-gray-100 hover:cursor-pointer ${!isOpen && "w-[52%] my-2"}`}>
+                            <div className={`flex mx-3 my-1 p-1 w-[90%] rounded-md text-gray-600 hover:text-black hover:font-bold hover:bg-gray-100 hover:cursor-pointer ${!isOpen && "w-[52%] lg:w-[50%] my-2"}`}>
                                 <img src={Promote} alt="" />
                                 <h1 className={`ml-3 text-sm md:text-lg ${!isOpen && "hidden"}`}>Promote</h1>
                             </div>
 
-                            <div className={`flex mx-3 my-1 p-1 w-[90%] rounded-md text-gray-600 hover:text-black hover:font-bold hover:bg-gray-100 hover:cursor-pointer ${!isOpen && "w-[52%] my-2"}`}>
+                            <div className={`flex mx-3 my-1 p-1 w-[90%] rounded-md text-gray-600 hover:text-black hover:font-bold hover:bg-gray-100 hover:cursor-pointer ${!isOpen && "w-[52%] lg:w-[50%] my-2"}`}>
                                 <img src={Settings} alt="" />
                                 <h1 className={`ml-3 text-sm md:text-lg ${!isOpen && "hidden"}`}>Transfer</h1>
                             </div>
