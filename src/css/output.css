@@ -2644,6 +2644,10 @@ video {
   background-color: rgb(255 235 59 / 0.2);
 }
 
+.bg-\[\#2E3192\]\/90 {
+  background-color: rgb(46 49 146 / 0.9);
+}
+
 .bg-opacity-60 {
   --tw-bg-opacity: 0.6;
 }
@@ -5242,6 +5246,10 @@ video {
 
 .hover\:bg-yellow-500\/10:hover {
   background-color: rgb(255 235 59 / 0.1);
+}
+
+.hover\:bg-\[\#2E3192\]\/70:hover {
+  background-color: rgb(46 49 146 / 0.7);
 }
 
 .hover\:bg-opacity-80:hover {

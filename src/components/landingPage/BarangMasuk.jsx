@@ -3,7 +3,7 @@ import ENDPOINTS from "../../.config/.conf";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
-import { Dialog, Option, Select } from "@material-tailwind/react";
+import { Dialog, Option, Select, Input } from "@material-tailwind/react";
 
 export default function Dashboard() {
   const user_id = Cookies.get("user_id");
@@ -25,10 +25,30 @@ export default function Dashboard() {
     setList(result.data);
   };
 
+  const sendData = async () => {
+    const data = new URLSearchParams();
+    const currentDate = new Date().toISOString();
+
+    data.append("item_id", receive.item_id);
+    data.append("qty", receive.qty);
+    data.append("input_by", user_id);
+    data.append("input_date", currentDate);
+    data.append("company_id", company_id);
+
+    const result = await axios.post(
+      `${ENDPOINTS.POST.ITEMS.RECEIVE.ADD}`,
+      data
+    );
+
+    getData()
+    getList()
+  };
+
   const [data, setData] = useState([]);
   const [list, setList] = useState([]);
   const [receive, setReceive] = useState({
     item_id: "",
+    qty: "",
   });
   const [open, setOpen] = useState(false);
   const [limit, setLimit] = useState(20);
@@ -52,14 +72,14 @@ export default function Dashboard() {
           unmount: { scale: 0.9, y: -100 },
         }}
         size="md"
-        className="rounded"
+        className="rounded-md"
       >
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            //   sendData();
+            sendData();
           }}
-          className="flex flex-col w-full justify-center items-center gap-2 bg-white shadow-xl rounded p-3 pt-1 z-20"
+          className="flex flex-col w-full justify-center items-center gap-2 bg-white shadow-xl rounded-lg p-3 pt-1 z-20"
         >
           <div className="w-full flex items-start justify-between mb-3">
             <div className="w-full">
@@ -85,28 +105,51 @@ export default function Dashboard() {
           </div>
 
           <div className="flex w-full flex-col">
-            <div className="mb-3">
+            <div className="mb-5">
               <Select
+                color="indigo"
                 label="Select Items"
                 className="focus:outline-none"
-                value={receive.item_id}
                 onChange={(val) => {
                   setReceive({
+                    ...receive,
                     item_id: val,
                   });
                 }}
               >
-                <Option value="">NOL</Option>
-                {list.length > 0 ? (
-                  <>
-                    {list.map((items) => (
-                      <Option key={items["ID"]} value={items["ID"].toString()}>
-                        {items["NAME"]}
+                {list.length > 0
+                  ? list.map((item) => (
+                      <Option key={item.ID} value={item.ID.toString()}>
+                        {item.NAME}
                       </Option>
-                    ))}
-                  </>
-                ) : null}
+                    ))
+                  : null}
               </Select>
+            </div>
+
+            {/* QTY OF ADDED RECEIVE ITEMS */}
+            <div className="mb-5">
+              <Input
+                required
+                color="indigo"
+                label="Qty"
+                onChange={(e) => {
+                  setReceive({
+                    ...receive,
+                    qty: e.target.value,
+                  });
+                }}
+              />
+            </div>
+
+            {/* INPUT BUTTON OF ADDED RECEIVE ITEMS */}
+            <div className="">
+              <button
+                type="submit"
+                className="w-full rounded-md p-1 bg-[#2E3192]/90 hover:bg-[#2E3192]/70 text-white font-medium"
+              >
+                Input
+              </button>
             </div>
 
             <div className="w-full flex flex-col mb-3"></div>
