@@ -6,6 +6,7 @@ import Sidebar from "./components/Sidebar";
 import Dashboard from "./components/landingPage/Dashboard";
 import BarangMasuk from "./components/landingPage/BarangMasuk";
 import BarangKeluar from "./components/landingPage/BarangKeluar";
+import ItemsList from './components/ListItems/ItemsList';
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
             <Route path='/dashboard' element={<Dashboard />} />
             <Route path='/received' element={ <BarangMasuk />} />
             <Route path='/issued' element={<BarangKeluar />} />
+            <Route path='/items' element={<ItemsList />} />
           </Route>
         </Routes>
       </BrowserRouter>
