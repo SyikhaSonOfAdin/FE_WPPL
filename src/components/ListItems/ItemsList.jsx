@@ -115,7 +115,10 @@ export default function ItemsList() {
                                                     </button>
                                                 </td>
                                                 <td className="px-6 py-3">
-                                                    <button className="bg-[#EF3826]/30 px-3 py-1 rounded">
+                                                    <button onClick={() => {
+                                                        setRemove({ id: items.ID });
+                                                        setOpenRemove(true);
+                                                    }} className="bg-[#EF3826]/30 px-3 py-1 rounded">
                                                         <svg width="20" height="16" viewBox="0 0 23 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                             <path d="M3.25 5.5H5.08333H19.75" stroke="#EF3826" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                                             <path d="M17.9166 5.49992V18.3333C17.9166 18.8195 17.7234 19.2858 17.3796 19.6296C17.0358 19.9734 16.5695 20.1666 16.0833 20.1666H6.91659C6.43035 20.1666 5.96404 19.9734 5.62022 19.6296C5.27641 19.2858 5.08325 18.8195 5.08325 18.3333V5.49992M7.83325 5.49992V3.66659C7.83325 3.18036 8.02641 2.71404 8.37022 2.37022C8.71404 2.02641 9.18035 1.83325 9.66659 1.83325H13.3333C13.8195 1.83325 14.2858 2.02641 14.6296 2.37022C14.9734 2.71404 15.1666 3.18036 15.1666 3.66659V5.49992" stroke="#EF3826" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
