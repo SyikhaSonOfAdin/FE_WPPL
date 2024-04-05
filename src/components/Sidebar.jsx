@@ -6,7 +6,7 @@ import { Tooltip } from "@material-tailwind/react";
 
 
 export default function Sidebar() {
-    const [isOpen, setOpen] = useState(true);
+    const [isOpen, setOpen] = useState(false);
     const Navigate = useNavigate();
 
     const username = Cookies.get("username")
