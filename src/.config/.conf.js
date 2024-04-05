@@ -1,5 +1,5 @@
-const URL = "http://localhost:3000"
-// const URL = "https://wppl.syikha.com"
+// const URL = "http://localhost:3000"
+const URL = "https://wppl.syikha.com"
 
 const API = {
     POST: `${URL}/api/post`,
