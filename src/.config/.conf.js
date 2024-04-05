@@ -1,7 +1,9 @@
+const URL = "http://localhost:3000"
+// const URL = "https://wppl.syikha.com"
+
 const API = {
-    URL: "https://wppl.syikha.com",
-    POST: "https://wppl.syikha.com/api/post",
-    GET: "https://wppl.syikha.com/api/get",
+    POST: `${URL}/api/post`,
+    GET: `${URL}/api/get`,
 }
 const ENDPOINTS = {
     GET: {

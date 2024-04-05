@@ -36,14 +36,50 @@ export default function Dashboard() {
     data.append("input_date", currentDate);
     data.append("company_id", company_id);
 
+    const result = await axios.post(`${ENDPOINTS.POST.ITEMS.ISSUED.ADD}`, data);
+
+    getData();
+    getList();
+  };
+
+  const sendDataEdit = async () => {
+    const data = new URLSearchParams();
+    const currentDate = new Date().toISOString();
+
+    data.append("item_id", issued.id);
+    data.append("id", issued.item_id);
+    data.append("qty", issued.qty);
+    data.append("input_by", user_id);
+    // data.append("input_date", currentDate);
+    data.append("company_id", company_id);
+
+    const result = await axios.post(`${ENDPOINTS.POST.ITEMS.ISSUED.EDIT}`, data);
+
+    setIssued({
+      id: "",
+      item_id: "",
+      qty: "",
+    })
+
+    getData();
+    getList();
+  };
+
+  const sendDataDelete = async () => {
+    const data = new URLSearchParams();
+    const currentDate = new Date().toISOString();
+
+    data.append("id", remove.id);
+    data.append("company_id", company_id);
+
     const result = await axios.post(
-      `${ENDPOINTS.POST.ITEMS.ISSUED.ADD}`,
+      `${ENDPOINTS.POST.ITEMS.ISSUED.DELETE}`,
       data
     );
 
-    getData()
-    getList()
-    setOpenRemove(false)
+    getData();
+    getList();
+    setOpenRemove(false);
   };
 
   const [open, setOpen] = useState(false);
@@ -53,6 +89,7 @@ export default function Dashboard() {
   const [openRemove, setOpenRemove] = useState(false);
   const [edit, setEdit] = useState(false);
   const [issued, setIssued] = useState({
+    id: "",
     item_id: "",
     qty: "",
   });
@@ -86,7 +123,7 @@ export default function Dashboard() {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            sendData();
+            sendDataEdit();
           }}
           className="flex flex-col w-full justify-center items-center gap-2 bg-white shadow-xl rounded-lg p-3 pt-1 z-20"
         >
@@ -116,22 +153,18 @@ export default function Dashboard() {
           <div className="flex w-full flex-col">
             <div className="mb-5">
               <Select
+                disabled
                 color="indigo"
                 label="Select Items"
                 className="focus:outline-none"
-                onChange={(val) => {
-                  setReceive({
-                    ...receive,
-                    item_id: val,
-                  });
-                }}
+                value={issued.item_id}
               >
                 {list.length > 0
                   ? list.map((item) => (
-                    <Option key={item.ID} value={item.ID.toString()}>
-                      {item.NAME}
-                    </Option>
-                  ))
+                      <Option key={item.ID} value={item.ID.toString()}>
+                        {item.NAME}
+                      </Option>
+                    ))
                   : null}
               </Select>
             </div>
@@ -142,9 +175,10 @@ export default function Dashboard() {
                 required
                 color="indigo"
                 label="Qty"
+                value={issued.qty}
                 onChange={(e) => {
-                  setReceive({
-                    ...receive,
+                  setIssued({
+                    ...issued,
                     qty: e.target.value,
                   });
                 }}
@@ -157,20 +191,20 @@ export default function Dashboard() {
                 type="submit"
                 className="w-full rounded-md p-1 bg-[#2E3192]/90 hover:bg-[#2E3192]/70 text-white font-medium"
               >
-                UPDATE
+                Update
               </button>
               <button
-                type="submit"
+                type="reset"
                 className="w-full rounded-md p-1 bg-[#2E3192]/90 hover:bg-[#2E3192]/70 text-white font-medium"
+                onClick={() => setEdit(false)}
               >
-                BATAL
+                Batal
               </button>
             </div>
-
-            <div className="w-full flex flex-col mb-3"></div>
           </div>
         </form>
       </Dialog>
+
       {/* DELETE FORM */}
       <Dialog
         open={openRemove}
@@ -228,17 +262,19 @@ export default function Dashboard() {
                 Ya
               </button>
               <button
-                type="submit"
+                type="reset"
+                onClick={() => {
+                  setOpenRemove(false);
+                }}
                 className="w-full rounded-md p-1 bg-[#AC2734] hover:bg-red-500/70 text-white font-medium"
               >
                 Tidak
               </button>
             </div>
-
-            <div className="w-full flex flex-col mb-3"></div>
           </div>
         </form>
       </Dialog>
+
       {/* ADD FORM */}
       <Dialog
         open={open}
@@ -295,10 +331,10 @@ export default function Dashboard() {
               >
                 {list.length > 0
                   ? list.map((item) => (
-                    <Option key={item.ID} value={item.ID.toString()}>
-                      {item.NAME}
-                    </Option>
-                  ))
+                      <Option key={item.ID} value={item.ID.toString()}>
+                        {item.NAME}
+                      </Option>
+                    ))
                   : null}
               </Select>
             </div>
@@ -368,7 +404,10 @@ export default function Dashboard() {
             </button>
           </form>
           <div className="flex mt-2">
-            <button onClick={() => setOpen(true)} className="font-xs text-white text-sm bg-blue-600 border-r shadow-md lg:w-[8%] rounded p-1 my-2">
+            <button
+              onClick={() => setOpen(true)}
+              className="font-xs text-white text-sm bg-blue-600 border-r shadow-md lg:w-[8%] rounded p-1 my-2"
+            >
               Tambah Barang
             </button>
           </div>
@@ -394,46 +433,107 @@ export default function Dashboard() {
             <tbody>
               {data.length > 0
                 ? data.slice(0, limit).map((items, index) => {
-                  return (
-                    <tr
-                      key={index}
-                      className="border-b border-b-gray-200 text-sm hover:bg-gray-400/10"
-                    >
-                      <td className="px-6 py-3">{index + 1}</td>
-                      <td className="px-6 py-3">{items.NAME}</td>
-                      <td className="px-6 py-3">{items.CODE}</td>
-                      <td className="px-6 py-3">{items.BRAND}</td>
-                      <td className="px-6 py-3">{items.MADE_IN}</td>
-                      <td className="px-6 py-3">{items.QTY}</td>
-                      <td className="px-6 py-3">{items.INPUT_DATE}</td>
-                      <td className="px-6 py-3">{items.INPUT_BY}</td>
-                      <td className="px-6 py-3">{items.COMPANY_NAME}</td>
-                      {/* EDIT BUTTON */} 
-                      <td className="px-6 py-3">
-                        <button onClick={() => setEdit(true)} className="bg-[#6226EF]/30 px-3 py-1 rounded">
-                          <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M7.79297 2.70728H3.1263C2.77268 2.70728 2.43354 2.84775 2.18349 3.0978C1.93344 3.34785 1.79297 3.68699 1.79297 4.04061V13.3739C1.79297 13.7276 1.93344 14.0667 2.18349 14.3168C2.43354 14.5668 2.77268 14.7073 3.1263 14.7073H12.4596C12.8133 14.7073 13.1524 14.5668 13.4024 14.3168C13.6525 14.0667 13.793 13.7276 13.793 13.3739V8.70728" stroke="#6226EF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M12.793 1.70718C13.0582 1.44197 13.4179 1.29297 13.793 1.29297C14.168 1.29297 14.5278 1.44197 14.793 1.70718C15.0582 1.9724 15.2072 2.33211 15.2072 2.70718C15.2072 3.08226 15.0582 3.44197 14.793 3.70718L8.45964 10.0405L5.79297 10.7072L6.45964 8.04052L12.793 1.70718Z" stroke="#6226EF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                          </svg>
-                        </button>
-                      </td>
-                      {/* DELETE BUTTON */}
-                      <td className="px-6 py-3">
-                        <button onClick={() => {
-                          setRemove({ id: items.ID });
-                          setOpenRemove(true);
-                        }} className="bg-[#EF3826]/30 px-3 py-1 rounded">
-                          <svg width="20" height="16" viewBox="0 0 23 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M3.25 5.5H5.08333H19.75" stroke="#EF3826" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M17.9166 5.49992V18.3333C17.9166 18.8195 17.7234 19.2858 17.3796 19.6296C17.0358 19.9734 16.5695 20.1666 16.0833 20.1666H6.91659C6.43035 20.1666 5.96404 19.9734 5.62022 19.6296C5.27641 19.2858 5.08325 18.8195 5.08325 18.3333V5.49992M7.83325 5.49992V3.66659C7.83325 3.18036 8.02641 2.71404 8.37022 2.37022C8.71404 2.02641 9.18035 1.83325 9.66659 1.83325H13.3333C13.8195 1.83325 14.2858 2.02641 14.6296 2.37022C14.9734 2.71404 15.1666 3.18036 15.1666 3.66659V5.49992" stroke="#EF3826" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M9.66675 10.0833V15.5833" stroke="#EF3826" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M13.3333 10.0833V15.5833" stroke="#EF3826" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                          </svg>
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })
+                    return (
+                      <tr
+                        key={index}
+                        className="border-b border-b-gray-200 text-sm hover:bg-gray-400/10"
+                      >
+                        <td className="px-6 py-3">{index + 1}</td>
+                        <td className="px-6 py-3">{items.NAME}</td>
+                        <td className="px-6 py-3">{items.CODE}</td>
+                        <td className="px-6 py-3">{items.BRAND}</td>
+                        <td className="px-6 py-3">{items.MADE_IN}</td>
+                        <td className="px-6 py-3">{items.QTY}</td>
+                        <td className="px-6 py-3">{items.INPUT_DATE}</td>
+                        <td className="px-6 py-3">{items.INPUT_BY}</td>
+                        <td className="px-6 py-3">{items.COMPANY_NAME}</td>
+                        {/* EDIT BUTTON */}
+                        <td className="px-6 py-3">
+                          <button
+                            onClick={() => {
+                              setIssued({
+                                id: items.ID,
+                                item_id: items.ITEM_ID,
+                                qty: items.QTY,
+                              });
+                              setEdit(true);
+                            }}
+                            className="bg-[#6226EF]/30 px-3 py-1 rounded"
+                          >
+                            <svg
+                              width="17"
+                              height="16"
+                              viewBox="0 0 17 16"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M7.79297 2.70728H3.1263C2.77268 2.70728 2.43354 2.84775 2.18349 3.0978C1.93344 3.34785 1.79297 3.68699 1.79297 4.04061V13.3739C1.79297 13.7276 1.93344 14.0667 2.18349 14.3168C2.43354 14.5668 2.77268 14.7073 3.1263 14.7073H12.4596C12.8133 14.7073 13.1524 14.5668 13.4024 14.3168C13.6525 14.0667 13.793 13.7276 13.793 13.3739V8.70728"
+                                stroke="#6226EF"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              />
+                              <path
+                                d="M12.793 1.70718C13.0582 1.44197 13.4179 1.29297 13.793 1.29297C14.168 1.29297 14.5278 1.44197 14.793 1.70718C15.0582 1.9724 15.2072 2.33211 15.2072 2.70718C15.2072 3.08226 15.0582 3.44197 14.793 3.70718L8.45964 10.0405L5.79297 10.7072L6.45964 8.04052L12.793 1.70718Z"
+                                stroke="#6226EF"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              />
+                            </svg>
+                          </button>
+                        </td>
+                        {/* DELETE BUTTON */}
+                        <td className="px-6 py-3">
+                          <button
+                            onClick={() => {
+                              setRemove({ id: items.ITEM_ID });
+                              setOpenRemove(true);
+                            }}
+                            className="bg-[#EF3826]/30 px-3 py-1 rounded"
+                          >
+                            <svg
+                              width="20"
+                              height="16"
+                              viewBox="0 0 23 22"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M3.25 5.5H5.08333H19.75"
+                                stroke="#EF3826"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              />
+                              <path
+                                d="M17.9166 5.49992V18.3333C17.9166 18.8195 17.7234 19.2858 17.3796 19.6296C17.0358 19.9734 16.5695 20.1666 16.0833 20.1666H6.91659C6.43035 20.1666 5.96404 19.9734 5.62022 19.6296C5.27641 19.2858 5.08325 18.8195 5.08325 18.3333V5.49992M7.83325 5.49992V3.66659C7.83325 3.18036 8.02641 2.71404 8.37022 2.37022C8.71404 2.02641 9.18035 1.83325 9.66659 1.83325H13.3333C13.8195 1.83325 14.2858 2.02641 14.6296 2.37022C14.9734 2.71404 15.1666 3.18036 15.1666 3.66659V5.49992"
+                                stroke="#EF3826"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              />
+                              <path
+                                d="M9.66675 10.0833V15.5833"
+                                stroke="#EF3826"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              />
+                              <path
+                                d="M13.3333 10.0833V15.5833"
+                                stroke="#EF3826"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              />
+                            </svg>
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })
                 : null}
             </tbody>
           </table>

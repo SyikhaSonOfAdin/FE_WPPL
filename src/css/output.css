@@ -1434,10 +1434,6 @@ video {
   width: 100vw;
 }
 
-.w-\[50\%\] {
-  width: 50%;
-}
-
 .min-w-0 {
   min-width: 0px;
 }
@@ -2654,10 +2650,6 @@ video {
 
 .bg-yellow-500\/20 {
   background-color: rgb(255 235 59 / 0.2);
-}
-
-.bg-\[\#AC2734\]\/20 {
-  background-color: rgb(172 39 52 / 0.2);
 }
 
 .bg-\[\#AC2734\] {
