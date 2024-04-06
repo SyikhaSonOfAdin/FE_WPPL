@@ -1,9 +1,8 @@
-// const URL = "http://localhost:3000"
-const URL = "https://wppl.syikha.com"
+import URLAPI from "./.url";
 
 const API = {
-    POST: `${URL}/api/post`,
-    GET: `${URL}/api/get`,
+    POST: `${URLAPI}/api/post`,
+    GET: `${URLAPI}/api/get`,
 }
 const ENDPOINTS = {
     GET: {
