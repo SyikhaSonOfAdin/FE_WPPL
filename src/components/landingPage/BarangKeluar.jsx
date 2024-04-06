@@ -40,6 +40,9 @@ export default function Dashboard() {
 
     getData();
     getList();
+    setIssued({
+      qty: "",
+    });
   };
 
   const sendDataEdit = async () => {
@@ -53,16 +56,20 @@ export default function Dashboard() {
     // data.append("input_date", currentDate);
     data.append("company_id", company_id);
 
-    const result = await axios.post(`${ENDPOINTS.POST.ITEMS.ISSUED.EDIT}`, data);
+    const result = await axios.post(
+      `${ENDPOINTS.POST.ITEMS.ISSUED.EDIT}`,
+      data
+    );
 
     setIssued({
       id: "",
       item_id: "",
       qty: "",
-    })
+    });
 
     getData();
     getList();
+    setEdit(false)
   };
 
   const sendDataDelete = async () => {
@@ -135,6 +142,11 @@ export default function Dashboard() {
               <div
                 onClick={() => {
                   setEdit(false);
+                  setIssued({
+                    id: "",
+                    item_id: "",
+                    qty: "",
+                  });
                 }}
                 className="group p-1 -mr-2 rounded hover:bg-red-500 transition-all duration-100 cursor-pointer"
               >
@@ -152,21 +164,21 @@ export default function Dashboard() {
 
           <div className="flex w-full flex-col">
             <div className="mb-5">
-              <Select
+              <select
                 disabled
                 color="indigo"
                 label="Select Items"
-                className="focus:outline-none"
-                value={issued.item_id}
+                className="w-full border px-3 py-2 rounded bg-gray-300/50"
+                value={issued.id}
               >
                 {list.length > 0
                   ? list.map((item) => (
-                      <Option key={item.ID} value={item.ID.toString()}>
+                      <option key={item.ID} value={item.ID}>
                         {item.NAME}
-                      </Option>
+                      </option>
                     ))
                   : null}
-              </Select>
+              </select>
             </div>
 
             {/* QTY OF ADDED RECEIVE ITEMS */}
@@ -345,6 +357,7 @@ export default function Dashboard() {
                 required
                 color="indigo"
                 label="Qty"
+                value={issued.qty}
                 onChange={(e) => {
                   setIssued({
                     ...issued,
@@ -406,9 +419,10 @@ export default function Dashboard() {
           <div className="flex mt-2">
             <button
               onClick={() => setOpen(true)}
-              className="font-xs text-white text-sm bg-blue-600 border-r shadow-md lg:w-[8%] rounded p-1 my-2"
+              disabled={list.length && list.length > 0 ? false : true}
+              className="font-xs text-white text-sm bg-blue-600 border-r shadow-md lg:w-[8%] rounded p-1 my-2 disabled:cursor-not-allowed disabled:bg-blue-600/50 "
             >
-              Tambah Barang
+              Barang Keluar
             </button>
           </div>
         </div>
@@ -470,16 +484,16 @@ export default function Dashboard() {
                               <path
                                 d="M7.79297 2.70728H3.1263C2.77268 2.70728 2.43354 2.84775 2.18349 3.0978C1.93344 3.34785 1.79297 3.68699 1.79297 4.04061V13.3739C1.79297 13.7276 1.93344 14.0667 2.18349 14.3168C2.43354 14.5668 2.77268 14.7073 3.1263 14.7073H12.4596C12.8133 14.7073 13.1524 14.5668 13.4024 14.3168C13.6525 14.0667 13.793 13.7276 13.793 13.3739V8.70728"
                                 stroke="#6226EF"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
                               />
                               <path
                                 d="M12.793 1.70718C13.0582 1.44197 13.4179 1.29297 13.793 1.29297C14.168 1.29297 14.5278 1.44197 14.793 1.70718C15.0582 1.9724 15.2072 2.33211 15.2072 2.70718C15.2072 3.08226 15.0582 3.44197 14.793 3.70718L8.45964 10.0405L5.79297 10.7072L6.45964 8.04052L12.793 1.70718Z"
                                 stroke="#6226EF"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
                               />
                             </svg>
                           </button>
@@ -503,30 +517,30 @@ export default function Dashboard() {
                               <path
                                 d="M3.25 5.5H5.08333H19.75"
                                 stroke="#EF3826"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
                               />
                               <path
                                 d="M17.9166 5.49992V18.3333C17.9166 18.8195 17.7234 19.2858 17.3796 19.6296C17.0358 19.9734 16.5695 20.1666 16.0833 20.1666H6.91659C6.43035 20.1666 5.96404 19.9734 5.62022 19.6296C5.27641 19.2858 5.08325 18.8195 5.08325 18.3333V5.49992M7.83325 5.49992V3.66659C7.83325 3.18036 8.02641 2.71404 8.37022 2.37022C8.71404 2.02641 9.18035 1.83325 9.66659 1.83325H13.3333C13.8195 1.83325 14.2858 2.02641 14.6296 2.37022C14.9734 2.71404 15.1666 3.18036 15.1666 3.66659V5.49992"
                                 stroke="#EF3826"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
                               />
                               <path
                                 d="M9.66675 10.0833V15.5833"
                                 stroke="#EF3826"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
                               />
                               <path
                                 d="M13.3333 10.0833V15.5833"
                                 stroke="#EF3826"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
                               />
                             </svg>
                           </button>
